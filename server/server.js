@@ -6,5 +6,8 @@ const io = require('socket.io')(3001, {
 });
 
 io.on('connection', (socket) => {
-  console.log('Connected');
+  // listening to custom send-changes from the client
+  socket.on('send-changes', (delta) => {
+    socket.broadcast.emit('receive-changes', delta);
+  });
 });
