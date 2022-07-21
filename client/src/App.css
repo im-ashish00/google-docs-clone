@@ -27,6 +27,7 @@ body {
   width: 8.5in;
   min-height: 11in;
   margin: 1rem;
+  padding: 4rem;
   background-color: white;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }

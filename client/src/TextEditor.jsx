@@ -16,6 +16,8 @@ const TOOLBAR_OPTIONS = [
   ['clean'],
 ];
 
+const SAVE_INTERVAL_MS = 2000;
+
 export default function TextEditor() {
   const { id: documentID } = useParams();
   const [socket, setSocket] = useState();
@@ -74,6 +76,14 @@ export default function TextEditor() {
     return () => {
       socket.off('receive-changes', handler);
     };
+  }, [socket, quill]);
+
+  //Saving document
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+    const interval = setInterval(() => {
+      socket.emit("save-document", quill.getContents())
+    }, SAVE_INTERVAL_MS);
   }, [socket, quill]);
   return <div ref={containerRef}></div>;
 }
