@@ -6,8 +6,13 @@ const io = require('socket.io')(3001, {
 });
 
 io.on('connection', (socket) => {
-  // listening to custom send-changes from the client
-  socket.on('send-changes', (delta) => {
-    socket.broadcast.emit('receive-changes', delta);
+  socket.on('get-document', (documentID) => {
+    const data = '';
+    socket.join(documentID);
+    socket.emit('load-document', data);
+    // listening to custom send-changes from the client
+    socket.on('send-changes', (delta) => {
+      socket.broadcast.to(documentID).emit('receive-changes', delta);
+    });
   });
 });
